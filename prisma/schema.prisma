@@ -4,20 +4,20 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   email     String   @unique
   name      String?
   habits    Habit[]
 }
 
 model Habit {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String   @id @default(uuid())
   name          String
   streak        Int      @default(0)
   goal          Int
   frequency     String
   lastCheckedIn DateTime?
   createdAt     DateTime @default(now())
-  userId        String   @db.ObjectId
+  userId        String
   user          User     @relation(fields: [userId], references: [id])
 } 
