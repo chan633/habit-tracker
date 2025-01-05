@@ -6,11 +6,19 @@ interface Habit {
   name: string;
   streak: number;
   goal: number;
+  lastCheckedIn: Date;
+  frequency: 'daily' | 'weekly';
+  userId: string;
 }
 
 export default function Home() {
   const [habits, setHabits] = useState<Habit[]>([
-    { id: 1, name: "Daily Meditation", streak: 5, goal: 30 },
+    {
+        id: 1, name: "Daily Meditation", streak: 5, goal: 30,
+        lastCheckedIn: new Date(),
+        frequency: 'daily',
+        userId: ''
+    },
   ]);
 
   const addHabit = () => {
@@ -18,9 +26,24 @@ export default function Home() {
       id: habits.length + 1,
       name: "New Habit",
       streak: 0,
-      goal: 30
-    };
+      goal: 30,
+      lastCheckedIn: new Date(),
+      frequency: 'daily',
+      userId: ''
+    } as Habit;
     setHabits([...habits, newHabit]);
+  };
+
+  const checkInHabit = async (habitId: number) => {
+    // Update streak and lastCheckedIn
+  };
+
+  const editHabit = async (habitId: number, updates: Partial<Habit>) => {
+    // Edit habit details
+  };
+
+  const deleteHabit = async (habitId: number) => {
+    // Delete habit
   };
 
   return (
