@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { HabitForm } from '@/components/HabitForm'
 
 interface Habit {
   id: number;
@@ -12,6 +13,7 @@ interface Habit {
 }
 
 export default function Home() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [habits, setHabits] = useState<Habit[]>([
     {
         id: 1, name: "Daily Meditation", streak: 5, goal: 30,
@@ -21,16 +23,16 @@ export default function Home() {
     },
   ]);
 
-  const addHabit = () => {
+  const addHabit = (habitData: { name: string; goal: number; frequency: 'daily' | 'weekly' }) => {
     const newHabit = {
       id: habits.length + 1,
-      name: "New Habit",
+      name: habitData.name,
       streak: 0,
-      goal: 30,
+      goal: habitData.goal,
       lastCheckedIn: new Date(),
-      frequency: 'daily',
+      frequency: habitData.frequency,
       userId: ''
-    } as Habit;
+    };
     setHabits([...habits, newHabit]);
   };
 
@@ -52,7 +54,7 @@ export default function Home() {
         <header className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900">Habit Tracker</h1>
           <button 
-            onClick={addHabit}
+            onClick={() => setIsFormOpen(true)}
             className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
             Add New Habit
@@ -72,6 +74,12 @@ export default function Home() {
             </Card>
           ))}
         </div>
+
+        <HabitForm 
+          isOpen={isFormOpen}
+          onClose={() => setIsFormOpen(false)}
+          onSubmit={addHabit}
+        />
       </div>
     </div>
   );
